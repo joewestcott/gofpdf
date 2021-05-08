@@ -47,7 +47,11 @@ func newTpl(corner PointType, size SizeType, orientationStr, unitStr, fontDirStr
 	for _, key := range templateKeyList(tpl.Fpdf.templates, true) {
 		templates = append(templates, tpl.Fpdf.templates[key])
 	}
-	images := tpl.Fpdf.images
+
+	images := map[string]*ImageInfoType{}
+	for _, id := range tpl.Fpdf.usedImages {
+		images[id] = tpl.Fpdf.images[id]
+	}
 
 	template := FpdfTpl{corner, size, bytes, images, templates, tpl.Fpdf.page}
 	return &template
@@ -301,4 +305,6 @@ func (t *Tpl) loadParamsFromFpdf(f *Fpdf) {
 	for key, value := range f.images {
 		t.Fpdf.images[key] = value
 	}
+
+	t.Fpdf.usedImages = []string{}
 }

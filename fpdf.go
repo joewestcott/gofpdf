@@ -208,6 +208,7 @@ func fpdfNew(orientationStr, unitStr, sizeStr, fontDirStr string, size SizeType)
 	f.creationDate = gl.creationDate
 	f.modDate = gl.modDate
 	f.userUnderlineThickness = 1
+	f.usedImages = []string{}
 	return
 }
 
@@ -3114,6 +3115,7 @@ func (f *Fpdf) ImageOptions(imageNameStr string, x, y, w, h float64, flow bool, 
 		return
 	}
 	info := f.RegisterImageOptions(imageNameStr, options)
+	f.usedImages = append(f.usedImages, imageNameStr)
 	if f.err != nil {
 		return
 	}
