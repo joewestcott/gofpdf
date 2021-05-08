@@ -65,7 +65,8 @@ type FpdfTpl struct {
 
 // ID returns the global template identifier
 func (t *FpdfTpl) ID() string {
-	return fmt.Sprintf("%x", sha1.Sum(t.Bytes()))
+	checksumBytes := sha1.Sum(t.Bytes())
+	return fmt.Sprintf("%x", checksumBytes[:4]) // 8 hexadecimal characters
 }
 
 // Size gives the bounding dimensions of this template

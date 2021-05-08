@@ -183,7 +183,8 @@ type ImageInfoType struct {
 
 func generateImageID(info *ImageInfoType) (string, error) {
 	b, err := info.GobEncode()
-	return fmt.Sprintf("%x", sha1.Sum(b)), err
+	checksumBytes := sha1.Sum(b)
+	return fmt.Sprintf("%x", checksumBytes[:4]), err // 8 hexadecimal characters
 }
 
 // GobEncode encodes the receiving image to a byte slice.
@@ -720,7 +721,8 @@ func generateFontID(fdt fontDefType) (string, error) {
 	// file can be different if generated in different instance
 	fdt.File = ""
 	b, err := json.Marshal(&fdt)
-	return fmt.Sprintf("%x", sha1.Sum(b)), err
+	checksumBytes := sha1.Sum(b)
+	return fmt.Sprintf("%x", checksumBytes[:4]), err // 8 hexadecimal characters
 }
 
 type fontInfoType struct {
